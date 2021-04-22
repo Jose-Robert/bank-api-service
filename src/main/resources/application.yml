@@ -1,0 +1,58 @@
+server:
+    tomcat:
+       connection-timeout: ${SERVER_TIMEOUT:60000}
+    servlet:
+       context-path: ${SERVER_SERVLET_CONTEXT_PATH:/bank}
+       
+spring:
+    datasource:
+        hikari:
+          connectionTimeout: ${HIKARI_CONNECTION_TIMEOUT:30000}
+          maxLifetime: ${HIKARI_MAX_LIFETIME:1800000}
+          maximumPoolSize: ${HIKARI_MAXIMUM_POOLSIZE:10}
+        dbcp2:
+            initial-size: 1
+            max-idle: 4
+            max-total: 20
+            min-idle: 0
+            remove-abandoned-timeout: 360
+            test-on-borrow: true
+            time-between-eviction-runs-millis: 60000
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: ${DB_URL:jdbc:mysql://localhost:3306/sisbank?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC}
+        username: ${DB_USER:bank}
+        password: ${DB_PASSWORD:@sisbank}
+    flyway:
+        locations: classpath:db/migration
+        enabled: ${FLYWAY_ENABLED:true}
+        
+    jackson:
+        date-format: yyyy-MM-dd
+        joda-date-time-format: yyyy-MM-dd HH:mm:ss
+        time-zone: GMT-03:00
+        serialization:
+            WRITE_DATES_AS_TIMESTAMPS: false
+    jpa:
+      database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+      show-sql: ${SHOW_SQL:true}
+      properties:
+        hibernate:
+          temp:
+            use_jdbc_metadata_defaults: false
+    h2: 
+      console:
+         enable: true
+         path: /h2-console
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: /api.json
+sistema-bancario:
+  cors:
+    allowed-origin: ${CORS_ALLOWED_ORIGIN:*}
+  api-info:
+      title: ${API_TITLE:API REST}
+      description: ${API_DESCRIPTION:Documentação do Bank Service}
+      version: ${API_VERSION:1.0.0}
+      base-package: br.com.github.sistemabancario.application
