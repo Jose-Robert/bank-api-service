@@ -2,6 +2,8 @@ package br.com.github.sistemabancario.domain.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -10,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import br.com.github.sistemabancario.domain.shared.BaseEntity;
+import br.com.github.sistemabancario.domain.shared.EstadoCivil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -46,6 +49,10 @@ public class Cliente extends BaseEntity {
 	
 	@Column(name =  "EMAIL")
 	private String email;
+
+	@Enumerated(EnumType.STRING)
+    @Column(name = "ESTCIVIL")
+    private EstadoCivil estadoCivil;
 
 	@Column(name = "CEP", length = 8)
 	private String cep;
