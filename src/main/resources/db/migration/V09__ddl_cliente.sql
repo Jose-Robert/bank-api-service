@@ -1,8 +1,10 @@
 CREATE TABLE cliente (
 	cdcliente BIGINT NOT NULL AUTO_INCREMENT,
 	nome VARCHAR(255) NOT NULL,
-	cpfcnpj VARCHAR(14) NOT NULL,
+	cpf VARCHAR(11) NOT NULL,
+	cnpj VARCHAR(14),
 	telefone VARCHAR(11),
+	email VARCHAR(150),
 	cep VARCHAR(8) NOT NULL,
 	tipologradouro_id BIGINT DEFAULT NULL,
 	rua VARCHAR(255) NOT NULL,
