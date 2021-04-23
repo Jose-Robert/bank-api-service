@@ -85,6 +85,11 @@ public class Cliente extends BaseEntity {
 	@JoinColumn(name = "PAIS_ID")
 	private Pais pais;
 	
+	public EstadoCivil getEstadoCivil(Integer id) {
+		estadoCivil = EstadoCivil.carregarPorId(id);
+		return estadoCivil;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
