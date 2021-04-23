@@ -35,12 +35,18 @@ public class Cliente extends BaseEntity {
 	@Column(name = "NOME")
 	private String nome;
 	
-	@Column(name = "CPFCNPJ")
-	private String cpfCnpj;
+	@Column(name = "CPF")
+	private String cpf;
+
+	@Column(name = "CNPJ")
+	private String cnpj;
 	
 	@Column(name =  "TELEFONE")
 	private String telefone;
 	
+	@Column(name =  "EMAIL")
+	private String email;
+
 	@Column(name = "CEP", length = 8)
 	private String cep;
 

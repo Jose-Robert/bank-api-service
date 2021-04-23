@@ -17,7 +17,7 @@ public class CnpjUtil {
 		return CnpjValidator.validaCNPJ(cnpj);
 	}
 
-	private static String remove(String cnpj) {
+	public static String remove(String cnpj) {
 		cnpj = cnpj.replace(".", "");
 		cnpj = cnpj.replace("/", "");
 		cnpj = cnpj.replace("-", "");

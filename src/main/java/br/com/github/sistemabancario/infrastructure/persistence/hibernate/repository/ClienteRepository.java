@@ -9,4 +9,6 @@ public interface ClienteRepository extends BaseRepository<Cliente> {
 
 	boolean existsByCpf(String cpf);
 	
+	public boolean existsByEmail(String email);
+
 }
