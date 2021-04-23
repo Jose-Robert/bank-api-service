@@ -14,7 +14,6 @@ public enum EstadoCivil {
     
     private Integer id;
     private String descricao;
-    private String codigoAdp;
     
     public static EstadoCivil carregarPorId(Integer id) {
         for (EstadoCivil tipo : EstadoCivil.values()) {
@@ -24,20 +23,10 @@ public enum EstadoCivil {
         }
         throw new RecursoNaoEncontradoException();
     }
-    
-    public static EstadoCivil carregarPorCodigoAdp(String codigoAdp) {
-        for (EstadoCivil tipo : EstadoCivil.values()) {
-            if (tipo.getCodigoAdp().equalsIgnoreCase(codigoAdp)) {
-                return tipo;
-            }
-        }
-        throw new RecursoNaoEncontradoException();
-    }
 
-    private EstadoCivil(Integer id, String descricao, String codigoAdp) {
+    private EstadoCivil(Integer id, String descricao) {
         this.id = id;
         this.descricao = descricao;
-        this.codigoAdp = codigoAdp;
     }
     
 }
