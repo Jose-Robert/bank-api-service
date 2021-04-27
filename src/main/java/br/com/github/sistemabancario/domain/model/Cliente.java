@@ -51,14 +51,14 @@ public class Cliente extends BaseEntity {
 	private String email;
 
 	@Enumerated(EnumType.STRING)
-    @Column(name = "ESTCIVIL")
+    @Column(name = "ESTADOCIVIL")
     private EstadoCivil estadoCivil;
 
 	@Column(name = "CEP", length = 8)
 	private String cep;
 
 	@ManyToOne
-	@JoinColumn(name = "TIPOLOGRADOURO_ID")
+	@JoinColumn(name = "TIPOLOGRADOURO_ID", referencedColumnName = "CDTIPOLOG")
 	private TipoLogradouro tipoLogradouro;
 
 	@Column(name = "RUA")
@@ -74,7 +74,7 @@ public class Cliente extends BaseEntity {
 	private String bairro;
 
 	@ManyToOne
-	@JoinColumn(name = "MUNICIPIO_ID")
+	@JoinColumn(name = "MUNICIPIO_ID", referencedColumnName = "CDMUNICIPIO")
 	private Municipio municipio;
 
 	@ManyToOne
@@ -114,4 +114,9 @@ public class Cliente extends BaseEntity {
 			return false;
 		return true;
 	}
+
+	@Override
+    public String toString() {
+        return "Funcionario [id=" + id + ", nome=" + nome + ", cpf=" + cpf + "]";
+    }
 }

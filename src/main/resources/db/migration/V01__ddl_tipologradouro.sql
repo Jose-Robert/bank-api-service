@@ -1,7 +1,7 @@
 CREATE TABLE tipologradouro (
 	cdtipolog BIGINT NOT NULL AUTO_INCREMENT,
-	descricao VARCHAR(50) NOT NULL,
 	cdtiplog VARCHAR(10),
+	descricao VARCHAR(50) NOT NULL,
 	status bit(1),
   	dtcriacao DATETIME,
   	dtatual DATETIME,

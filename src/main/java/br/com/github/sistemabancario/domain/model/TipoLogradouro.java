@@ -32,7 +32,7 @@ public class TipoLogradouro extends BaseEntity {
 	@Column(name = "DESCRICAO")
 	private String descricao;
 
-	@Column(name = "CODTIPLOG")
+	@Column(name = "CDTIPLOG")
 	private String codigoTipoLogradouro;
 
 	@Override
