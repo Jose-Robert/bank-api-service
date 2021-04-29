@@ -1,5 +1,7 @@
 package br.com.github.sistemabancario.application.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +30,8 @@ import br.com.github.sistemabancario.presentation.dto.cliente.ClienteFilterReque
 import br.com.github.sistemabancario.presentation.dto.cliente.ClienteReducedResponseTO;
 import br.com.github.sistemabancario.presentation.dto.cliente.ClienteRequestTO;
 import br.com.github.sistemabancario.presentation.dto.cliente.ClienteResponseTO;
+import io.swagger.annotations.ApiOperation;
+
 
 @RestController
 @RequestMapping(path = "/clientes")
@@ -48,6 +52,7 @@ public class ClienteRest {
 	@Autowired
 	private SpecificationFactory<Cliente> specificationFactory;
 
+	@ApiOperation(value = "Retorna o cadastro do cliente")
 	@PostMapping
 	public ResponseEntity<ResponseTO<ClienteResponseTO>> salvar(@RequestBody ClienteRequestTO requestTO) {
 		Cliente cliente = converterService.convert(requestTO, Cliente.class);
@@ -56,6 +61,7 @@ public class ClienteRest {
 		return responseService.created(responseTO);
 	}
 
+	@ApiOperation(value = "Retorna uma lista de clientes de forma paginada")
 	@GetMapping
 	public ResponseEntity<ResponseTO<Page<ClienteReducedResponseTO>>> listar(ClienteFilterRequestTO filterRequestTO,
 			Pageable pageable) {
@@ -66,14 +72,16 @@ public class ClienteRest {
 		return responseService.ok(responseTOPage);
 	}
 
-	@GetMapping("/{id}")
+	@ApiOperation(value = "Retorna um cliente pelo identificador")
+	@GetMapping(value = "/{id}")
 	public ResponseEntity<ResponseTO<ClienteResponseTO>> buscar(@PathVariable Long id) {
 		Cliente cliente = clienteService.buscar(id);
 		ClienteResponseTO responseTO = converterService.convert(cliente, ClienteResponseTO.class);
 		return responseService.ok(responseTO);
 	}
 
-	@PutMapping("/{id}")
+	@ApiOperation(value = "Retorna um cliente atualizado")
+	@PutMapping(value = "/{id}")
 	public ResponseEntity<ResponseTO<ClienteResponseTO>> atualizar(@PathVariable Long id, @RequestBody ClienteRequestTO requestTO) {
 		Cliente cliente = converterService.convert(requestTO, Cliente.class);
 		Cliente clienteSaved = clienteService.atualizar(id, cliente);
@@ -81,16 +89,50 @@ public class ClienteRest {
 		return responseService.created(responseTO);
 	}
 
-	@DeleteMapping("/{id}")
+	@ApiOperation(value = "Remove cliente passando o identificador")
+	@DeleteMapping(value = "/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long id) {
 		clienteService.remover(id);
 	}
 
-	@PatchMapping("/{id}/ativo")
+	@ApiOperation(value = "Muda status do cliente")
+	@PatchMapping(value = "/{id}/ativo")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void alternaAtivo(@PathVariable Long id) {
 		clienteService.alternaAtivo(id);
+	}
+	
+	@ApiOperation(value = "Retorna uma lista de clientes pelo email")
+	@GetMapping(value = "/buscar-por-email/{email}/")
+	public ResponseEntity<ResponseTO<List<ClienteResponseTO>>> buscarPorEmail(@PathVariable String email) {
+		List<Cliente> clientes = clienteService.buscarPorEmail(email);
+		List<ClienteResponseTO> clientesResponse = converterService.convert(clientes, ClienteResponseTO.class);
+		return responseService.ok(clientesResponse);
+	}
+	
+	@ApiOperation(value = "Retorna uma lista de clientes pelo nome")
+	@GetMapping("/buscar-por-nome/{nome}")
+	public ResponseEntity<ResponseTO<List<ClienteResponseTO>>> buscarPorNome(@PathVariable String nome) {
+		List<Cliente> clientes = clienteService.buscarPorNomeLike(nome);
+		List<ClienteResponseTO> clientesResponse = converterService.convert(clientes, ClienteResponseTO.class);
+		return responseService.ok(clientesResponse);
+	}
+	
+	@ApiOperation(value = "Retorna uma lista de clientes pelo CPF")
+	@GetMapping("/buscar-por-cpf/{cpf}")
+	public ResponseEntity<ResponseTO<List<ClienteResponseTO>>> buscarPorCpf(@PathVariable String cpf) {
+		List<Cliente> clientes = clienteService.buscarPorCpf(cpf);
+		List<ClienteResponseTO> clientesResponse = converterService.convert(clientes, ClienteResponseTO.class);
+		return responseService.ok(clientesResponse);
+	}
+	
+	@ApiOperation(value = "Retorna uma lista de clientes pelo CNPJ")
+	@GetMapping("/buscar-por-cnpj/{cnpj}")
+	public ResponseEntity<ResponseTO<List<ClienteResponseTO>>> buscarPorCnpj(@PathVariable String cnpj) {
+		List<Cliente> clientes = clienteService.buscarPorCnpj(cnpj);
+		List<ClienteResponseTO> clientesResponse = converterService.convert(clientes, ClienteResponseTO.class);
+		return responseService.ok(clientesResponse);
 	}
 
 }

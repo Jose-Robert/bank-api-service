@@ -1,9 +1,14 @@
 package br.com.github.sistemabancario.application.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Strings;
 
+import br.com.github.sistemabancario.application.service.exception.CampoObrigatorioException;
+import br.com.github.sistemabancario.application.service.exception.CampoTamanhoMaximoException;
 import br.com.github.sistemabancario.application.service.exception.CnpjClienteJaExisteException;
 import br.com.github.sistemabancario.application.service.exception.CnpjInvalidoException;
 import br.com.github.sistemabancario.application.service.exception.CpfClienteJaExisteException;
@@ -25,6 +30,7 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, ClienteReposito
 		validaNulo(cliente);
 		cliente.setCpf(cliente.getCpf() != null ? CpfUtil.remove(cliente.getCpf()) : null);
 		cliente.setCnpj(cliente.getCnpj() != null ? CnpjUtil.remove(cliente.getCnpj()) : null);
+		validaObrigatoriedadeDosCampos(cliente);
 		validaCpfEmailAndCnpj(cliente);
 		validarDuplicidade(cliente);
 		return super.salvar(cliente);
@@ -33,8 +39,9 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, ClienteReposito
 	@Override
 	public Cliente atualizar(Long id, Cliente cliente) {
 		validaNulo(cliente);
-		cliente.setCpf(CpfUtil.remove(cliente.getCpf()));
-		cliente.setCnpj(CnpjUtil.remove(cliente.getCnpj()));
+		cliente.setCpf(cliente.getCpf() != null ? CpfUtil.remove(cliente.getCpf()) : null);
+		cliente.setCnpj(cliente.getCnpj() != null ? CnpjUtil.remove(cliente.getCnpj()) : null);
+		validaObrigatoriedadeDosCampos(cliente);
 		validaCpfEmailAndCnpj(cliente);
 		validarDuplicidade(cliente);
 		return super.atualizar(id, cliente);
@@ -89,6 +96,70 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, ClienteReposito
 		if (!Strings.isNullOrEmpty(cnpj) && !CnpjUtil.isValid(cnpj)) {
 			throw new CnpjInvalidoException();
 		}
+	}
+
+	private void validaObrigatoriedadeDosCampos(Cliente cliente) {
+		if (cliente.getCpf() == null) {
+			throw new CampoObrigatorioException("CPF");
+		} else if (cliente.getCpf().length() > 14) {
+			throw new CampoTamanhoMaximoException("CPF", 14);
+		}
+
+		if (cliente.getNome() == null) {
+			throw new CampoObrigatorioException("Nome");
+		}
+
+		if (cliente.getCep() == null) {
+			throw new CampoObrigatorioException("CEP");
+		}
+
+		if (cliente.getRua() == null) {
+			throw new CampoObrigatorioException("Rua");
+		}
+
+		if (cliente.getBairro() == null) {
+			throw new CampoObrigatorioException("Bairro");
+		}
+	}
+
+	public List<Cliente> buscarPorEmail(String email) {
+		List<Cliente> clientes = new ArrayList<>();
+		getRepository().findByEmail(email).forEach(cliente -> {
+			if (cliente != null) {
+				clientes.add(cliente);
+			}
+		});
+		return clientes;
+	}
+
+	public List<Cliente> buscarPorNomeLike(String nome) {
+		List<Cliente> clientes = new ArrayList<>();
+		getRepository().findByNomeLike(nome).forEach(cliente -> {
+			if (cliente != null) {
+				clientes.add(cliente);
+			}
+		});
+		return clientes;
+	}
+
+	public List<Cliente> buscarPorCpf(String cpf) {
+		List<Cliente> clientes = new ArrayList<>();
+		getRepository().findByCpf(cpf).forEach(cliente -> {
+			if (cliente != null) {
+				clientes.add(cliente);
+			}
+		});
+		return clientes;
+	}
+
+	public List<Cliente> buscarPorCnpj(String cnpj) {
+		List<Cliente> clientes = new ArrayList<>();
+		getRepository().findByCnpj(cnpj).forEach(cliente -> {
+			if (cliente != null) {
+				clientes.add(cliente);
+			}
+		});
+		return clientes;
 	}
 
 }
