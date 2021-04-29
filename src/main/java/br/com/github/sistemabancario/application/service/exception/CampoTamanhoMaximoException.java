@@ -10,9 +10,9 @@ public class CampoTamanhoMaximoException extends RuntimeException {
     private static final long serialVersionUID = -2419164056224622081L;
 
     private final String nome;
-    private final String tamanho;
+    private final int tamanho;
 
-    public CampoTamanhoMaximoException(String nome, String tamanho) {
+    public CampoTamanhoMaximoException(String nome, int tamanho) {
         this.nome = nome;
         this.tamanho = tamanho;
     }
