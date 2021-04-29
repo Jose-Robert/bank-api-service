@@ -144,7 +144,7 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, ClienteReposito
 
 	public List<Cliente> buscarPorCpf(String cpf) {
 		List<Cliente> clientes = new ArrayList<>();
-		getRepository().findByNomeLike(cpf).forEach(cliente -> {
+		getRepository().findByCpf(cpf).forEach(cliente -> {
 			if (cliente != null) {
 				clientes.add(cliente);
 			}
