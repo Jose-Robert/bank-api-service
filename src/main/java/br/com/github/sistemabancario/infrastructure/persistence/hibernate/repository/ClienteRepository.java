@@ -17,7 +17,7 @@ public interface ClienteRepository extends BaseRepository<Cliente> {
 
 	List<Cliente> findByEmail(String email);
 
-	List<Cliente> findByNomeLike(String nome);
+	List<Cliente> findByNomeContainingIgnoreCase(String nome);
 
 	List<Cliente> findByCpf(String cpf);
 
