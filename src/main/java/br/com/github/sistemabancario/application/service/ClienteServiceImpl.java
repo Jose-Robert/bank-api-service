@@ -17,6 +17,7 @@ import br.com.github.sistemabancario.application.service.exception.EmailClienteJ
 import br.com.github.sistemabancario.application.service.exception.EmailInvalidoException;
 import br.com.github.sistemabancario.domain.model.Cliente;
 import br.com.github.sistemabancario.domain.service.ClienteService;
+import br.com.github.sistemabancario.domain.shared.DadosPessoas;
 import br.com.github.sistemabancario.infrastructure.persistence.hibernate.repository.ClienteRepository;
 import br.com.github.sistemabancario.infrastructure.util.CnpjUtil;
 import br.com.github.sistemabancario.infrastructure.util.CpfUtil;
@@ -28,8 +29,7 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, ClienteReposito
 	@Override
 	public Cliente salvar(Cliente cliente) {
 		validaNulo(cliente);
-		cliente.setCpf(cliente.getCpf() != null ? CpfUtil.remove(cliente.getCpf()) : null);
-		cliente.setCnpj(cliente.getCnpj() != null ? CnpjUtil.remove(cliente.getCnpj()) : null);
+		formataCpfCnpj(cliente);
 		validaObrigatoriedadeDosCampos(cliente);
 		validaCpfEmailAndCnpj(cliente);
 		validarDuplicidade(cliente);
@@ -39,8 +39,7 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, ClienteReposito
 	@Override
 	public Cliente atualizar(Long id, Cliente cliente) {
 		validaNulo(cliente);
-		cliente.setCpf(cliente.getCpf() != null ? CpfUtil.remove(cliente.getCpf()) : null);
-		cliente.setCnpj(cliente.getCnpj() != null ? CnpjUtil.remove(cliente.getCnpj()) : null);
+		formataCpfCnpj(cliente);
 		validaObrigatoriedadeDosCampos(cliente);
 		validaCpfEmailAndCnpj(cliente);
 		validarDuplicidade(cliente);
@@ -68,44 +67,44 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, ClienteReposito
 
 	private void validarDuplicidade(Cliente cliente) {
 
-		if (cpfExists(cliente.getCpf())) {
+		if (cpfExists(cliente.getDadosPessoas().getCpf())) {
 			throw new CpfClienteJaExisteException();
 		}
 
-		if (emailExists(cliente.getEmail())) {
+		if (emailExists(cliente.getDadosPessoas().getEmail())) {
 			throw new EmailClienteJaExisteException();
 		}
 
-		if (cnpjExists(cliente.getCnpj())) {
+		if (cnpjExists(cliente.getDadosPessoas().getCnpj())) {
 			throw new CnpjClienteJaExisteException();
 		}
 	}
 
 	private void validaCpfEmailAndCnpj(Cliente cliente) {
-		String cpf = cliente.getCpf();
+		String cpf = cliente.getDadosPessoas().getCpf();
 		if (!CpfUtil.isValid(cpf)) {
 			throw new CpfInvalidoException();
 		}
 
-		String email = cliente.getEmail();
+		String email = cliente.getDadosPessoas().getEmail();
 		if (!EmailValidator.isValidoEmail(email)) {
 			throw new EmailInvalidoException();
 		}
 
-		String cnpj = cliente.getCnpj();
+		String cnpj = cliente.getDadosPessoas().getCnpj();
 		if (!Strings.isNullOrEmpty(cnpj) && !CnpjUtil.isValid(cnpj)) {
 			throw new CnpjInvalidoException();
 		}
 	}
 
 	private void validaObrigatoriedadeDosCampos(Cliente cliente) {
-		if (cliente.getCpf() == null) {
+		if (cliente.getDadosPessoas().getCpf() == null) {
 			throw new CampoObrigatorioException("CPF");
-		} else if (cliente.getCpf().length() > 14) {
+		} else if (cliente.getDadosPessoas().getCpf().length() > 14) {
 			throw new CampoTamanhoMaximoException("CPF", 14);
 		}
 
-		if (cliente.getNome() == null) {
+		if (cliente.getDadosPessoas().getNome() == null) {
 			throw new CampoObrigatorioException("Nome");
 		}
 
@@ -164,6 +163,14 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, ClienteReposito
 			}
 		});
 		return clientes;
+	}
+
+	private Cliente formataCpfCnpj(Cliente cliente) {
+		DadosPessoas dadosPessoas = new DadosPessoas();
+		dadosPessoas.setCpf(cliente.getDadosPessoas().getCpf() != null ? CpfUtil.remove(cliente.getDadosPessoas().getCpf()) : null);
+		cliente.setDadosPessoas(dadosPessoas);
+		dadosPessoas.setCnpj(cliente.getDadosPessoas().getCnpj() != null ? CnpjUtil.remove(cliente.getDadosPessoas().getCnpj()): null);
+		return cliente;
 	}
 
 }

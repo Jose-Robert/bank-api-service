@@ -1,9 +1,8 @@
 package br.com.github.sistemabancario.domain.model;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,7 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import br.com.github.sistemabancario.domain.shared.BaseEntity;
-import br.com.github.sistemabancario.domain.shared.EstadoCivil;
+import br.com.github.sistemabancario.domain.shared.DadosPessoas;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,24 +34,8 @@ public class Cliente extends BaseEntity {
 	@Column(name = "CDCLIENTE")
 	private Long id;
 	
-	@Column(name = "NOME")
-	private String nome;
-	
-	@Column(name = "CPF")
-	private String cpf;
-
-	@Column(name = "CNPJ")
-	private String cnpj;
-	
-	@Column(name =  "TELEFONE")
-	private String telefone;
-	
-	@Column(name =  "EMAIL")
-	private String email;
-
-	@Enumerated(EnumType.STRING)
-    @Column(name = "ESTADOCIVIL")
-    private EstadoCivil estadoCivil;
+	@Embedded
+	private DadosPessoas dadosPessoas;
 
 	@Column(name = "CEP", length = 8)
 	private String cep;
@@ -85,10 +68,6 @@ public class Cliente extends BaseEntity {
 	@JoinColumn(name = "PAIS_ID")
 	private Pais pais;
 	
-	public EstadoCivil getEstadoCivil(Integer id) {
-		estadoCivil = EstadoCivil.carregarPorId(id);
-		return estadoCivil;
-	}
 
 	@Override
 	public int hashCode() {
@@ -117,6 +96,6 @@ public class Cliente extends BaseEntity {
 
 	@Override
     public String toString() {
-        return "Funcionario [id=" + id + ", nome=" + nome + ", cpf=" + cpf + "]";
+        return "Funcionario [id=" + id + ", nome=" + dadosPessoas.getNome() + ", cpf=" + dadosPessoas.getCpf() + "]";
     }
 }
