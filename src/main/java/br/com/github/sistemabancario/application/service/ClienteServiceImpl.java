@@ -122,6 +122,7 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, ClienteReposito
 		}
 	}
 
+	@Override
 	public List<Cliente> buscarPorEmail(String email) {
 		List<Cliente> clientes = new ArrayList<>();
 		getRepository().findByEmail(email).forEach(cliente -> {
@@ -132,9 +133,10 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, ClienteReposito
 		return clientes;
 	}
 
+	@Override
 	public List<Cliente> buscarPorNomeLike(String nome) {
 		List<Cliente> clientes = new ArrayList<>();
-		getRepository().findByNomeLike(nome).forEach(cliente -> {
+		getRepository().findByNomeContainingIgnoreCase(nome).forEach(cliente -> {
 			if (cliente != null) {
 				clientes.add(cliente);
 			}
@@ -142,6 +144,7 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, ClienteReposito
 		return clientes;
 	}
 
+	@Override
 	public List<Cliente> buscarPorCpf(String cpf) {
 		List<Cliente> clientes = new ArrayList<>();
 		getRepository().findByCpf(cpf).forEach(cliente -> {
@@ -152,6 +155,7 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, ClienteReposito
 		return clientes;
 	}
 
+	@Override
 	public List<Cliente> buscarPorCnpj(String cnpj) {
 		List<Cliente> clientes = new ArrayList<>();
 		getRepository().findByCnpj(cnpj).forEach(cliente -> {
