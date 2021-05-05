@@ -7,6 +7,8 @@ import br.com.github.sistemabancario.domain.model.Pais;
 import br.com.github.sistemabancario.domain.model.TipoLogradouro;
 import br.com.github.sistemabancario.domain.model.Uf;
 import br.com.github.sistemabancario.domain.shared.EstadoCivil;
+import br.com.github.sistemabancario.domain.shared.RacaCor;
+import br.com.github.sistemabancario.domain.shared.Sexo;
 import br.com.github.sistemabancario.infrastructure.annotation.converter.IdReference;
 import lombok.Data;
 
@@ -14,7 +16,7 @@ import lombok.Data;
 public class ClienteRequestTO implements Serializable {
 
 	private static final long serialVersionUID = -5230486751798529175L;
-
+	
 	private String nome;
 
 	private String cpf;
@@ -27,6 +29,10 @@ public class ClienteRequestTO implements Serializable {
 	
 	private EstadoCivil estadoCivil;
 	
+	private Sexo sexo;
+
+	private RacaCor racaCor;
+
 	private String cep;
 
 	@IdReference(target = TipoLogradouro.class, property = "tipoLogradouro")

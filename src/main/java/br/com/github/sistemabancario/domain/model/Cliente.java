@@ -13,6 +13,8 @@ import javax.persistence.Table;
 
 import br.com.github.sistemabancario.domain.shared.BaseEntity;
 import br.com.github.sistemabancario.domain.shared.EstadoCivil;
+import br.com.github.sistemabancario.domain.shared.RacaCor;
+import br.com.github.sistemabancario.domain.shared.Sexo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,22 +39,30 @@ public class Cliente extends BaseEntity {
 	
 	@Column(name = "NOME")
 	private String nome;
-	
+
 	@Column(name = "CPF")
 	private String cpf;
 
 	@Column(name = "CNPJ")
 	private String cnpj;
-	
-	@Column(name =  "TELEFONE")
+
+	@Column(name = "TELEFONE")
 	private String telefone;
-	
-	@Column(name =  "EMAIL")
+
+	@Column(name = "EMAIL")
 	private String email;
 
 	@Enumerated(EnumType.STRING)
-    @Column(name = "ESTADOCIVIL")
-    private EstadoCivil estadoCivil;
+	@Column(name = "ESTADOCIVIL")
+	private EstadoCivil estadoCivil;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "SEXO")
+	private Sexo sexo;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "RACACOR")
+	private RacaCor racaCor;
 
 	@Column(name = "CEP", length = 8)
 	private String cep;
@@ -90,6 +100,16 @@ public class Cliente extends BaseEntity {
 		return estadoCivil;
 	}
 
+	public Sexo getSexo(Integer id) {
+		sexo = Sexo.carregarPorId(id);
+		return sexo;
+	}
+	
+	public RacaCor getRacaCor(Integer id) {
+		racaCor = RacaCor.carregarPorId(id);
+		return racaCor;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

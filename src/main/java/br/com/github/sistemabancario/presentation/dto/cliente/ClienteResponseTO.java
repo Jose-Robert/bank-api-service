@@ -30,6 +30,10 @@ public class ClienteResponseTO implements Serializable {
 	
 	private EnumResponseTO estadoCivil;
 	
+	private EnumResponseTO sexo;
+
+	private EnumResponseTO racaCor;
+
 	private String cep;
 
 	private TipoLogradouroResponseTO tipoLogradouro;
