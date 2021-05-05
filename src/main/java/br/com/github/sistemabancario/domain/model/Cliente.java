@@ -1,8 +1,9 @@
 package br.com.github.sistemabancario.domain.model;
 
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,7 +12,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import br.com.github.sistemabancario.domain.shared.BaseEntity;
-import br.com.github.sistemabancario.domain.shared.DadosPessoas;
+import br.com.github.sistemabancario.domain.shared.EstadoCivil;
+import br.com.github.sistemabancario.domain.shared.GrauParentesco;
+import br.com.github.sistemabancario.domain.shared.RacaCor;
+import br.com.github.sistemabancario.domain.shared.Sexo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,8 +38,36 @@ public class Cliente extends BaseEntity {
 	@Column(name = "CDCLIENTE")
 	private Long id;
 	
-	@Embedded
-	private DadosPessoas dadosPessoas;
+	@Column(name = "NOME")
+	private String nome;
+
+	@Column(name = "CPF")
+	private String cpf;
+
+	@Column(name = "CNPJ")
+	private String cnpj;
+
+	@Column(name = "TELEFONE")
+	private String telefone;
+
+	@Column(name = "EMAIL")
+	private String email;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "ESTADOCIVIL")
+	private EstadoCivil estadoCivil;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "SEXO")
+	private Sexo sexo;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "RACACOR")
+	private RacaCor racaCor;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "GRAUPARENTESCO")
+	private GrauParentesco grauParentesco;
 
 	@Column(name = "CEP", length = 8)
 	private String cep;
@@ -68,6 +100,25 @@ public class Cliente extends BaseEntity {
 	@JoinColumn(name = "PAIS_ID")
 	private Pais pais;
 	
+	public EstadoCivil getEstadoCivil(Integer id) {
+		estadoCivil = EstadoCivil.carregarPorId(id);
+		return estadoCivil;
+	}
+
+	public Sexo getSexo(Integer id) {
+		sexo = Sexo.carregarPorId(id);
+		return sexo;
+	}
+	
+	public RacaCor getRacaCor(Integer id) {
+		racaCor = RacaCor.carregarPorId(id);
+		return racaCor;
+	}
+	
+	public GrauParentesco getGrauParentesco(Integer id) {
+		grauParentesco = GrauParentesco.carregarPorId(id);
+		return grauParentesco;
+	}
 
 	@Override
 	public int hashCode() {
@@ -96,6 +147,6 @@ public class Cliente extends BaseEntity {
 
 	@Override
     public String toString() {
-        return "Funcionario [id=" + id + ", nome=" + dadosPessoas.getNome() + ", cpf=" + dadosPessoas.getCpf() + "]";
+        return "Funcionario [id=" + id + ", nome=" + nome + ", cpf=" + cpf + "]";
     }
 }

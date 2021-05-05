@@ -19,22 +19,22 @@ public class ClienteFilterRequestTO implements Serializable {
 	@SpecificationField(property = "id")
 	private Long id;
 
-	@SpecificationField(property = "dadosPessoas.nome", operation = SpecificationOperation.LIKE_IGNORE_CASE)
+	@SpecificationField(property = "nome", operation = SpecificationOperation.LIKE_IGNORE_CASE)
 	private String nome;
 
-	@SpecificationField(property = "dadosPessoas.cpf", operation = SpecificationOperation.LIKE_IGNORE_CASE)
+	@SpecificationField(property = "cpf", operation = SpecificationOperation.LIKE_IGNORE_CASE)
 	private String cpf;
 	
-	@SpecificationField(property = "dadosPessoas.cnpj", operation = SpecificationOperation.LIKE_IGNORE_CASE)
+	@SpecificationField(property = "cnpj", operation = SpecificationOperation.LIKE_IGNORE_CASE)
 	private String cnpj;
 	
-	@SpecificationField(property = "dadosPessoas.telefone")
+	@SpecificationField(property = "telefone")
 	private String telefone;
 	
-	@SpecificationField(property = "dadosPessoas.email", operation = SpecificationOperation.LIKE_IGNORE_CASE)
+	@SpecificationField(property = "email", operation = SpecificationOperation.LIKE_IGNORE_CASE)
 	private String email;
 	
-	@SpecificationField(property = "dadosPessoas.estadoCivil")
+	@SpecificationField(property = "estadoCivil")
 	private Integer estadoCivil;
 
 	@SpecificationField(property = "ativo")

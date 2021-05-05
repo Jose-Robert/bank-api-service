@@ -2,6 +2,7 @@ package br.com.github.sistemabancario.presentation.dto.cliente;
 
 import java.io.Serializable;
 
+import br.com.github.sistemabancario.presentation.dto.shared.EnumResponseTO;
 import br.com.github.sistemabancario.presentation.dto.shared.MunicipioResponseTO;
 import br.com.github.sistemabancario.presentation.dto.shared.PaisResponseTO;
 import br.com.github.sistemabancario.presentation.dto.shared.TipoLogradouroResponseTO;
@@ -17,7 +18,23 @@ public class ClienteResponseTO implements Serializable {
 
 	private Long id;
 
-	private DadosPessoasResponseTO dadosPessoas;
+	private String nome;
+
+	private String cpf;
+	
+	private String cnpj;
+	
+	private String telefone;
+	
+	private String email;
+	
+	private EnumResponseTO estadoCivil;
+	
+	private EnumResponseTO sexo;
+
+	private EnumResponseTO racaCor;
+
+	private EnumResponseTO grauParentesco;
 	
 	private String cep;
 
