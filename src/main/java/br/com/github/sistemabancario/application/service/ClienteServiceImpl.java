@@ -28,7 +28,8 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, ClienteReposito
 	@Override
 	public Cliente salvar(Cliente cliente) {
 		validaNulo(cliente);
-		formataCpfCnpj(cliente);
+		removeCaracteresCpfCnpjAndCep(cliente);
+		cliente.setTelefone(removeCaracteresTelefone(cliente.getTelefone()));
 		validaObrigatoriedadeDosCampos(cliente);
 		validaCpfEmailAndCnpj(cliente);
 		validarDuplicidade(cliente);
@@ -38,7 +39,8 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, ClienteReposito
 	@Override
 	public Cliente atualizar(Long id, Cliente cliente) {
 		validaNulo(cliente);
-		formataCpfCnpj(cliente);
+		removeCaracteresCpfCnpjAndCep(cliente);
+		removeCaracteresTelefone(cliente.getTelefone());
 		validaObrigatoriedadeDosCampos(cliente);
 		validaCpfEmailAndCnpj(cliente);
 		validarDuplicidade(cliente);
@@ -164,10 +166,19 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, ClienteReposito
 		return clientes;
 	}
 
-	private Cliente formataCpfCnpj(Cliente cliente) {
+	private Cliente removeCaracteresCpfCnpjAndCep(Cliente cliente) {
 		cliente.setCpf(cliente.getCpf() != null ? CpfUtil.remove(cliente.getCpf()) : null);
-		cliente.setCnpj(cliente.getCnpj() != null ? CnpjUtil.remove(cliente.getCnpj()): null);
+		cliente.setCnpj(cliente.getCnpj() != null ? CnpjUtil.remove(cliente.getCnpj()) : null);
+		cliente.setCep(cliente.getCep().replace("-", "").trim());
 		return cliente;
+	}
+
+	private String removeCaracteresTelefone(String telefone) {
+		telefone = telefone.replace("(", "");
+		telefone = telefone.replace(")", "");
+		telefone = telefone.replace("-", "");
+		telefone = telefone.replace(" ", "").trim();
+		return telefone;
 	}
 
 }

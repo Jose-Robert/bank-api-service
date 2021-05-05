@@ -13,7 +13,6 @@ import javax.persistence.Table;
 
 import br.com.github.sistemabancario.domain.shared.BaseEntity;
 import br.com.github.sistemabancario.domain.shared.EstadoCivil;
-import br.com.github.sistemabancario.domain.shared.GrauParentesco;
 import br.com.github.sistemabancario.domain.shared.RacaCor;
 import br.com.github.sistemabancario.domain.shared.Sexo;
 import lombok.AllArgsConstructor;
@@ -65,10 +64,6 @@ public class Cliente extends BaseEntity {
 	@Column(name = "RACACOR")
 	private RacaCor racaCor;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "GRAUPARENTESCO")
-	private GrauParentesco grauParentesco;
-
 	@Column(name = "CEP", length = 8)
 	private String cep;
 
@@ -115,11 +110,6 @@ public class Cliente extends BaseEntity {
 		return racaCor;
 	}
 	
-	public GrauParentesco getGrauParentesco(Integer id) {
-		grauParentesco = GrauParentesco.carregarPorId(id);
-		return grauParentesco;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -8,7 +8,6 @@ CREATE TABLE cliente (
 	estadocivil VARCHAR(50) NULL,
 	sexo VARCHAR(50) NULL,
 	racacor VARCHAR(50) NULL,
-	grauparentesco VARCHAR(50) NULL,
 	cep VARCHAR(8) NOT NULL,
 	tipologradouro_id BIGINT DEFAULT NULL,
 	rua VARCHAR(255) NOT NULL,

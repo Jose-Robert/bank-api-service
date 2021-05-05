@@ -7,7 +7,6 @@ import br.com.github.sistemabancario.domain.model.Pais;
 import br.com.github.sistemabancario.domain.model.TipoLogradouro;
 import br.com.github.sistemabancario.domain.model.Uf;
 import br.com.github.sistemabancario.domain.shared.EstadoCivil;
-import br.com.github.sistemabancario.domain.shared.GrauParentesco;
 import br.com.github.sistemabancario.domain.shared.RacaCor;
 import br.com.github.sistemabancario.domain.shared.Sexo;
 import br.com.github.sistemabancario.infrastructure.annotation.converter.IdReference;
@@ -34,8 +33,6 @@ public class ClienteRequestTO implements Serializable {
 
 	private RacaCor racaCor;
 
-	private GrauParentesco grauParentesco;
-	
 	private String cep;
 
 	@IdReference(target = TipoLogradouro.class, property = "tipoLogradouro")
